@@ -21,7 +21,7 @@ public class WearableListItemLayout extends LinearLayout
 
     private CircledImageView mCircle;
     private TextView itemName;
-    private final int mUnselectedCircleColor, mSelectedCircleColor;
+//    private final int mUnselectedCircleColor, mSelectedCircleColor;
     private float mBigCircleRadius;
     private float mSmallCircleRadius;
 
@@ -37,8 +37,8 @@ public class WearableListItemLayout extends LinearLayout
                                   int defStyle) {
         super(context, attrs, defStyle);
 
-        mUnselectedCircleColor = Color.parseColor("#434343");
-        mSelectedCircleColor = Color.parseColor("#434343");
+//        mUnselectedCircleColor = Color.parseColor("#80000000");
+//        mSelectedCircleColor = Color.parseColor("#80000000");
         mSmallCircleRadius = getResources().
                 getDimensionPixelSize(R.dimen.small_circle_radius);
         mBigCircleRadius = getResources().
@@ -57,7 +57,7 @@ public class WearableListItemLayout extends LinearLayout
         if (animate) {
             animate().alpha(NO_ALPHA).translationX(X_TRANSLATION).start();
         }
-        mCircle.setCircleColor(mSelectedCircleColor);
+//        mCircle.setCircleColor(mSelectedCircleColor);
         mCircle.setCircleRadius(mBigCircleRadius);
         itemName.setTypeface(null, Typeface.BOLD);
     }
@@ -67,7 +67,7 @@ public class WearableListItemLayout extends LinearLayout
         if (animate) {
             animate().alpha(PARTIAL_ALPHA).translationX(NO_X_TRANSLATION).start();
         }
-        mCircle.setCircleColor(mUnselectedCircleColor);
+//        mCircle.setCircleColor(mUnselectedCircleColor);
         mCircle.setCircleRadius(mSmallCircleRadius);
         itemName.setTypeface(null, Typeface.NORMAL);
     }

@@ -8,7 +8,7 @@
         android:id="@+id/frame_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="#434343">
+        android:background="@drawable/baselworld_background_full">
 
         <android.support.wearable.view.WearableListView
             android:id="@+id/wearable_List"
