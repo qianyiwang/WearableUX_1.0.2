@@ -57,6 +57,12 @@
         </LinearLayout>
 
     </HorizontalScrollView>
-
+    <ImageButton
+        android:id="@+id/setting_button"
+        android:layout_below="@+id/scrollBar"
+        android:layout_centerHorizontal="true"
+        android:layout_width="73dp"
+        android:layout_height="73dp"
+        android:background="@drawable/setting_buttoh"/>
 
 </RelativeLayout>

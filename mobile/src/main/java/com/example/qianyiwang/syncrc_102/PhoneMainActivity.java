@@ -128,7 +128,7 @@ public class PhoneMainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                GlobalValues.udpAddress = InetAddress.getByName("192.168.1.5");
+                GlobalValues.udpAddress = InetAddress.getByName(GlobalValues.udp_address);
                 GlobalValues.udp_socket = new DatagramSocket();
             } catch (IOException e) {
                 e.printStackTrace();
