@@ -66,6 +66,8 @@ public class WatchMainActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.bluetooth_audio_button:
                 GlobalValues.msg = "bluetooth_audio";
+                intent = new Intent(this, AudioActivity.class);
+                startActivity(intent);
                 GlobalValues.vibrator.vibrate(50);
                 break;
 

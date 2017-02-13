@@ -34,6 +34,10 @@
             android:name=".ClimateControlActivity"
             android:theme="@style/MyStyle" >
         </activity>
+        <activity
+            android:name=".AudioActivity"
+            android:theme="@style/MyStyle" >
+        </activity>
     </application>
 
 </manifest>
