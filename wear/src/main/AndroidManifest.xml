@@ -38,6 +38,10 @@
             android:name=".AudioActivity"
             android:theme="@style/MyStyle" >
         </activity>
+        <activity
+            android:name=".MCSActivity"
+            android:theme="@style/MyStyle" >
+        </activity>
     </application>
 
 </manifest>

@@ -62,6 +62,8 @@ public class WatchMainActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.mcs_control:
                 GlobalValues.msg = "mcs_control";
+                intent = new Intent(this, MCSActivity.class);
+                startActivity(intent);
                 GlobalValues.vibrator.vibrate(50);
                 break;
             case R.id.bluetooth_audio_button:

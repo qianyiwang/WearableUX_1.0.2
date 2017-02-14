@@ -26,7 +26,6 @@ public class AudioActivity extends Activity implements View.OnClickListener{
     ImageButton volumeUp, volumeDown;
     SeekBar volumeSeekBar;
     TextView track_name;
-    Vibrator vibrator;
     boolean playStatus = false;
     int track_idx, volumeVal;
     String[] trackName = {"Kalimba", "Maid with the Flaxen Hair", "Sleep Away"};
@@ -53,7 +52,6 @@ public class AudioActivity extends Activity implements View.OnClickListener{
         play_pauseBT = (ImageView)findViewById(R.id.run_pause);
         play_pauseBT.setOnClickListener(this);
 
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         track_name = (TextView)findViewById(R.id.musicName);
 
         volumeDown = (ImageButton)findViewById(R.id.volumeDown);
@@ -99,21 +97,21 @@ public class AudioActivity extends Activity implements View.OnClickListener{
             case R.id.run_pause:
                 if(playStatus)
                 {
-                    vibrator.vibrate(50);
+                    GlobalValues.vibrator.vibrate(50);
                     play_pauseBT.setImageResource(R.drawable.ic_play_v2);
                     GlobalValues.msg = "pause";
                     playStatus = false;
                 }
                 else
                 {
-                    vibrator.vibrate(50);
+                    GlobalValues.vibrator.vibrate(50);
                     play_pauseBT.setImageResource(R.drawable.ic_pause_v2);
                     GlobalValues.msg = "play";
                     playStatus = true;
                 }
                 break;
             case R.id.nextSong:
-                vibrator.vibrate(50);
+                GlobalValues.vibrator.vibrate(50);
                 if(track_idx<2)
                 {
                     GlobalValues.msg = "seek_up";
@@ -129,7 +127,7 @@ public class AudioActivity extends Activity implements View.OnClickListener{
                 }
                 break;
             case R.id.previousSong:
-                vibrator.vibrate(50);
+                GlobalValues.vibrator.vibrate(50);
                 if(track_idx>0)
                 {
                     GlobalValues.msg = "seek_down";
@@ -143,13 +141,13 @@ public class AudioActivity extends Activity implements View.OnClickListener{
                 }
                 break;
             case R.id.backButton:
-                vibrator.vibrate(50);
+                GlobalValues.vibrator.vibrate(50);
                 GlobalValues.msg = "home";
                 finish();
                 break;
 
             case R.id.volumeDown:
-                vibrator.vibrate(50);
+                GlobalValues.vibrator.vibrate(50);
                 if(volumeVal>1){
                     GlobalValues.msg = "volume_down";
                     volumeSeekBar.setProgress(--volumeVal);
@@ -157,7 +155,7 @@ public class AudioActivity extends Activity implements View.OnClickListener{
 
                 break;
             case R.id.volumeUp:
-                vibrator.vibrate(50);
+                GlobalValues.vibrator.vibrate(50);
                 if(volumeVal<10){
                     GlobalValues.msg = "volume_up";
                     volumeSeekBar.setProgress(++volumeVal);
