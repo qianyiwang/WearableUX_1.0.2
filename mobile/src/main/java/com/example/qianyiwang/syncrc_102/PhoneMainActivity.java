@@ -1,14 +1,21 @@
 package com.example.qianyiwang.syncrc_102;
 
+import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Message;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,13 +38,17 @@ public class PhoneMainActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     ListView listView;
     SimpleDateFormat sdf;
-    ToggleButton adasToggle, hrToggle;
+    ToggleButton adasToggle;
+    Button notificationButton;
     TextView hr_text;
     BroadcastReceiver broadcastReceiver;
+    long[] scVibrate = {50,50,50};
+
 
     // TCP & UDP
     ConnectTcp connectTcp;
     ConnectUdp connectUdp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +86,15 @@ public class PhoneMainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        notificationButton = (Button)findViewById(R.id.notification_button);
+        notificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // send notification to watch
+                postNotifications(getApplicationContext(), scVibrate, R.mipmap.speed_alert, "Coming Event", "Home - Weekly Staff Meeting");
+            }
+        });
     }
 
     @Override
@@ -92,6 +112,21 @@ public class PhoneMainActivity extends AppCompatActivity {
             String currentTime = sdf.format(new Date());
             Log.e("received msg_watch",msg_watch);
             adapter.add(msg_watch+"@"+currentTime);
+        }
+    }
+
+    public static void postNotifications(Context context, long[] vibration, int image, String title, String text) {
+        String colorStr = "<font color=\"red\"><b>"+title+"</b></font>";
+        NotificationCompat.Builder summaryBuilder = new
+                NotificationCompat.Builder(context)
+                .setContentTitle(Html.fromHtml(colorStr))
+                .setContentText(text)
+                .setSmallIcon(image)
+                .setVibrate(vibration);
+        Notification[] notifications = new android.app.Notification[]{summaryBuilder.build()};
+        for (int i = 0; i < notifications.length; i++) {
+            Notification not = notifications[i];
+            NotificationManagerCompat.from(context).notify(i, not);
         }
     }
 

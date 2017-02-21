@@ -14,7 +14,7 @@ import java.net.Socket;
 public class GlobalValues {
     public static Socket socket = null;
     public static DatagramSocket udp_socket = null;
-    public static String dstAddress = "192.168.1.6";
+    public static String dstAddress = "192.168.1.2";
     public static InetAddress udpAddress;
     public static String udp_address = "192.168.1.4";
     public static int dstPort = 1024;
