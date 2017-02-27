@@ -70,7 +70,7 @@ public class PhoneMainActivity extends AppCompatActivity {
         registerReceiver(broadcastReceiver, new IntentFilter(WatchListener.BROADCAST_ACTION));
         // connect tcp and udp
         connectTcp = new ConnectTcp();
-        connectTcp.execute();
+//        connectTcp.execute();
         connectUdp = new ConnectUdp();
         connectUdp.execute();
 

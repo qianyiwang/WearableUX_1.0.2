@@ -24,6 +24,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramPacket;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -67,6 +68,7 @@ public class BluetoothService extends Service {
     protected final int SUCCESS_CONNECT = 0;
     protected final int MESSAGE_READ = 1;
     protected final int FAIL_CONNECT = 2;
+    DatagramPacket packet;
 
     //**************************** HANDLER *********************************************************
     android.os.Handler mHandler = new android.os.Handler() {
@@ -104,6 +106,8 @@ public class BluetoothService extends Service {
                             LKlastTime = System.currentTimeMillis();
                             postNotifications(getApplicationContext(), lkVibrate, R.mipmap.lane_keeping_alert, "Lane Keeping Alert", "", adas_demo_on);
                         }
+
+                        sendUdp("ADAS_LaneKeeping");
                     }
 
                     if (alertText.contains("Headway")) {
@@ -115,6 +119,8 @@ public class BluetoothService extends Service {
                             HWlastTime = System.currentTimeMillis();
                             postNotifications(getApplicationContext(), hwVibrate, R.mipmap.headway_alert, "Headway Alert", "", adas_demo_on);
                         }
+
+                        sendUdp("ADAS_Headway");
                     }
 
                     if (alertText.contains("BlindSpot")) {
@@ -126,6 +132,8 @@ public class BluetoothService extends Service {
                             BSlastTime = System.currentTimeMillis();
                             postNotifications(getApplicationContext(), bsVibrate, R.mipmap.blis_alert, "Blind Spot Warning", "", adas_demo_on);
                         }
+
+                        sendUdp("ADAS_BlindSpot");
                     }
 
                     if (alertText.contains("Speed")) {
@@ -137,6 +145,8 @@ public class BluetoothService extends Service {
                             SPlastTime = System.currentTimeMillis();
                             postNotifications(getApplicationContext(), spVibrate, R.mipmap.speed_alert, "Speed Warning", "", adas_demo_on);
                         }
+
+                        sendUdp("ADAS_Speed");
                     }
 
                     if (alertText.contains("SharpCurve")) {
@@ -450,6 +460,19 @@ public class BluetoothService extends Service {
                         .extend(new NotificationCompat.WearableExtender().setBackground(BitmapFactory.decodeResource(context.getResources(), image)));
 
                 return new Notification[]{summaryBuilder.build(), childBuilder1.build()};
+            }
+        }
+    }
+
+    // **********send UDP socket**********************
+    private void sendUdp(String msg){
+        if(GlobalValues.udp_socket!=null){
+            packet = new DatagramPacket( msg.getBytes(), msg.getBytes().length, GlobalValues.udpAddress, GlobalValues.udpPort );
+            try {
+                GlobalValues.udp_socket.send(packet);
+                Log.e("UDP send", msg);
+            } catch (IOException e) {
+                Log.e("UDP error", "network not reachable");
             }
         }
     }

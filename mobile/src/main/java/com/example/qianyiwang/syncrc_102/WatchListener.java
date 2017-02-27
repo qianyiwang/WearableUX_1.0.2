@@ -36,8 +36,8 @@ public class WatchListener extends WearableListenerService{
                 sendTcp(msg_watch);
             }
             else{
-                String hr = msgParsing(msg_watch);
-                sendUdp(hr);
+//                String hr = msgParsing(msg_watch);
+                sendUdp(msg_watch);
             }
             Log.e("WatchListener",msg_watch);
             broadCastIntent.putExtra("msg_watch", msg_watch);
@@ -72,6 +72,7 @@ public class WatchListener extends WearableListenerService{
             packet = new DatagramPacket( msg.getBytes(), msg.getBytes().length, GlobalValues.udpAddress, GlobalValues.udpPort );
             try {
                 GlobalValues.udp_socket.send(packet);
+                Log.e("UDP send", msg);
             } catch (IOException e) {
                 Log.e("UDP error", "network not reachable");
             }
