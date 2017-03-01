@@ -25,7 +25,7 @@ public class WatchMainActivity extends Activity implements View.OnClickListener{
         Log.v("test","main create");
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         startService(new Intent(this, PhoneSender.class));
-        startService(new Intent(this, HeartRateService.class));
+//        startService(new Intent(this, HeartRateService.class));
 
         climateBt = (ImageButton)findViewById(R.id.climate_control);
         climateBt.setOnClickListener(this);
@@ -48,7 +48,7 @@ public class WatchMainActivity extends Activity implements View.OnClickListener{
     protected void onDestroy() {
         super.onDestroy();
         stopService(new Intent(getBaseContext(), PhoneSender.class));
-        stopService(new Intent(getBaseContext(), HeartRateService.class));
+//        stopService(new Intent(getBaseContext(), HeartRateService.class));
     }
 
     @Override

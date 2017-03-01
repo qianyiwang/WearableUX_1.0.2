@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Message;
@@ -107,7 +108,8 @@ public class BluetoothService extends Service {
                             postNotifications(getApplicationContext(), lkVibrate, R.mipmap.lane_keeping_alert, "Lane Keeping Alert", "", adas_demo_on);
                         }
 
-                        sendUdp("ADAS_LaneKeeping");
+                        SendUDP sendUDP = new SendUDP("ADAS_LaneKeeping");
+                        sendUDP.execute();
                     }
 
                     if (alertText.contains("Headway")) {
@@ -120,7 +122,8 @@ public class BluetoothService extends Service {
                             postNotifications(getApplicationContext(), hwVibrate, R.mipmap.headway_alert, "Headway Alert", "", adas_demo_on);
                         }
 
-                        sendUdp("ADAS_Headway");
+                        SendUDP sendUDP = new SendUDP("ADAS_Headway");
+                        sendUDP.execute();
                     }
 
                     if (alertText.contains("BlindSpot")) {
@@ -133,7 +136,8 @@ public class BluetoothService extends Service {
                             postNotifications(getApplicationContext(), bsVibrate, R.mipmap.blis_alert, "Blind Spot Warning", "", adas_demo_on);
                         }
 
-                        sendUdp("ADAS_BlindSpot");
+                        SendUDP sendUDP = new SendUDP("ADAS_BlindSpot");
+                        sendUDP.execute();
                     }
 
                     if (alertText.contains("Speed")) {
@@ -146,7 +150,8 @@ public class BluetoothService extends Service {
                             postNotifications(getApplicationContext(), spVibrate, R.mipmap.speed_alert, "Speed Warning", "", adas_demo_on);
                         }
 
-                        sendUdp("ADAS_Speed");
+                        SendUDP sendUDP = new SendUDP("ADAS_Speeding");
+                        sendUDP.execute();
                     }
 
                     if (alertText.contains("SharpCurve")) {
@@ -465,15 +470,31 @@ public class BluetoothService extends Service {
     }
 
     // **********send UDP socket**********************
-    private void sendUdp(String msg){
-        if(GlobalValues.udp_socket!=null){
-            packet = new DatagramPacket( msg.getBytes(), msg.getBytes().length, GlobalValues.udpAddress, GlobalValues.udpPort );
-            try {
-                GlobalValues.udp_socket.send(packet);
-                Log.e("UDP send", msg);
-            } catch (IOException e) {
-                Log.e("UDP error", "network not reachable");
+    // **********send UDP socket**********************
+    public class SendUDP extends AsyncTask<Void, Void, Void> {
+
+        String msg;
+
+        SendUDP(String msg){
+            this.msg = msg;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if(GlobalValues.udp_socket!=null){
+                packet = new DatagramPacket( msg.getBytes(), msg.getBytes().length, GlobalValues.udpAddress, GlobalValues.udpPort );
+                try {
+                    GlobalValues.udp_socket.send(packet);
+                } catch (IOException e) {
+                    Log.e("UDP error", "network not reachable");
+                }
             }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
     }
 

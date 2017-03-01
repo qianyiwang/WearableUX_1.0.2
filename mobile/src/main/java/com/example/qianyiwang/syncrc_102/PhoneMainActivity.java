@@ -43,6 +43,7 @@ public class PhoneMainActivity extends AppCompatActivity {
     TextView hr_text;
     BroadcastReceiver broadcastReceiver;
     long[] scVibrate = {50,50,50};
+    DatagramPacket packet;
 
 
     // TCP & UDP
@@ -70,7 +71,7 @@ public class PhoneMainActivity extends AppCompatActivity {
         registerReceiver(broadcastReceiver, new IntentFilter(WatchListener.BROADCAST_ACTION));
         // connect tcp and udp
         connectTcp = new ConnectTcp();
-//        connectTcp.execute();
+        connectTcp.execute();
         connectUdp = new ConnectUdp();
         connectUdp.execute();
 
@@ -92,6 +93,8 @@ public class PhoneMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // send notification to watch
+                SendUDP sendUDP = new SendUDP("Phone_Baseline Notification");
+                sendUDP.execute();
                 postNotifications(getApplicationContext(), scVibrate, R.mipmap.speed_alert, "Coming Event", "Home - Weekly Staff Meeting");
             }
         });
@@ -169,6 +172,34 @@ public class PhoneMainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+
+    // **********send UDP socket**********************
+    public class SendUDP extends AsyncTask<Void, Void, Void>{
+
+        String msg;
+
+        SendUDP(String msg){
+            this.msg = msg;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if(GlobalValues.udp_socket!=null){
+                packet = new DatagramPacket( msg.getBytes(), msg.getBytes().length, GlobalValues.udpAddress, GlobalValues.udpPort );
+                try {
+                    GlobalValues.udp_socket.send(packet);
+                } catch (IOException e) {
+                    Log.e("UDP error", "network not reachable");
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
     }
 

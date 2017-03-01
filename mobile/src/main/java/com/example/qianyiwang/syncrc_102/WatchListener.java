@@ -32,16 +32,20 @@ public class WatchListener extends WearableListenerService{
     public void onMessageReceived(MessageEvent messageEvent) {
         if (messageEvent.getPath().equalsIgnoreCase(START_ACTIVITY_PATH)){
             String msg_watch = new String(messageEvent.getData());
-            if(!msg_watch.contains("hr:")){
-                sendTcp(msg_watch);
-            }
-            else{
+            if(msg_watch.contains("hr:")){
+
 //                String hr = msgParsing(msg_watch);
                 sendUdp(msg_watch);
+                broadCastIntent.putExtra("msg_watch", msg_watch);
+                sendBroadcast(broadCastIntent);
+            }
+            else if (msg_watch.contains("SYNC RC_")){
+                sendUdp(msg_watch);
+            }
+            else{
+                sendTcp(msg_watch);
             }
             Log.e("WatchListener",msg_watch);
-            broadCastIntent.putExtra("msg_watch", msg_watch);
-            sendBroadcast(broadCastIntent);
         }
     }
 

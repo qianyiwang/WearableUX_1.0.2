@@ -39,6 +39,7 @@ public class MCSActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
+        GlobalValues.msg = "SYNC RC_MCS clicked";
     }
 
     @Override

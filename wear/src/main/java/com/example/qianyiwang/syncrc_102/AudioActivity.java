@@ -30,7 +30,6 @@ public class AudioActivity extends Activity implements View.OnClickListener{
     int track_idx, volumeVal;
     String[] trackName = {"Kalimba", "Maid with the Flaxen Hair", "Sleep Away"};
     TextToSpeech t1;
-    SharedPreferences prefs;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     Boolean gestureOn;
 
@@ -76,8 +75,7 @@ public class AudioActivity extends Activity implements View.OnClickListener{
             }
         });
 
-        prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        gestureOn = prefs.getBoolean("gesture_status", false);
+        GlobalValues.msg = "SYNC RC_Bluetooth Audio clicked";
     }
 
     @Override

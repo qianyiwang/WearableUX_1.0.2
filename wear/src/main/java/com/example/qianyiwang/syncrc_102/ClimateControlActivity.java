@@ -35,6 +35,7 @@ public class ClimateControlActivity extends FragmentActivity implements View.OnC
         backBT = (ImageView)findViewById(R.id.backButton);
         backBT.setOnClickListener(this);
         GlobalValues.vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        GlobalValues.msg = "SYNC RC_Climate clicked";
 
     }
 
